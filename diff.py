@@ -1789,7 +1789,7 @@ class AsmProcessorI686(AsmProcessor):
         repl = row.split()[-1]
         mnemonic, args = prev.split(maxsplit=1)
 
-        if args == "$0x00": args = 0x00
+        if args.startswith("$0x") and int(args.replace("$0x", ""), 16) == 0: args = "0x0"
         addr_imm = re.search(r"(?<!\$)0x[0-9a-f]+", args)
         if not addr_imm:
             assert False, f"failed to find address immediate for line '{prev}'"
