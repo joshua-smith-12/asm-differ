@@ -1798,7 +1798,7 @@ class AsmProcessorI686(AsmProcessor):
             args = "0x0"
         addr_imm = re.search(r"(?<!\$)0x[0-9a-f]+", args)
         if not addr_imm:
-            assert False, f"failed to find address immediate for line '{prev}'"
+            assert False, f"failed to find address immediate for line '{prev}', args {args}"
         start, end = addr_imm.span()
 
         if "R_386_NONE" in row:
