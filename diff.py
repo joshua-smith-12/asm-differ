@@ -1794,8 +1794,9 @@ class AsmProcessorI686(AsmProcessor):
         if args.endswith(",0"): args = args[:-2] + ",0x0"
         try:
             int(args, 16)
-        except ValueError:
             args = "0x0"
+        except ValueError:
+            pass
         addr_imm = re.search(r"(?<!\$)0x[0-9a-f]+", args)
         if not addr_imm:
             assert False, f"failed to find address immediate for line '{prev}', args {args}"
