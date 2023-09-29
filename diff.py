@@ -2591,7 +2591,10 @@ def process(dump: str, config: Config) -> List[Line]:
                     if capture != "":
                         branch_target = int(capture, 16)
                 else:
-                    branch_target = int(args.split(",")[-1], 16)
+                    # handle e.g. call %eax
+                    x86_regjump = re.search(r"^%(.*)", args)
+                    if not x86_regjump:
+                        branch_target = int(args.split(",")[-1], 16)
 
         output.append(
             Line(
