@@ -1820,6 +1820,8 @@ class AsmProcessorI686(AsmProcessor):
             repl = f"%got({repl})"
         elif "R_386_32PLT" in row:
             repl = f"%plt({repl})"
+        elif "dir32" in row:
+            pass
         else:
             assert False, f"unknown relocation type '{row}' for line '{prev}'"
 
