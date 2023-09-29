@@ -2570,7 +2570,7 @@ def process(dump: str, config: Config) -> List[Line]:
         branch_target = None
         if (
             mnemonic in arch.branch_instructions or is_text_relative_j
-        ) and symbol is None:
+        ) and symbol is None and "*" in args:
             # Here, we try to match a wide variety of addressing mode:
             # - Global deref with offset: *0x1234(%eax)
             # - Global deref: *0x1234
@@ -2591,10 +2591,7 @@ def process(dump: str, config: Config) -> List[Line]:
                     if capture != "":
                         branch_target = int(capture, 16)
                 else:
-                    # handle e.g. call %eax
-                    x86_regjump = re.search(r"^%(.*)", args)
-                    if not x86_regjump:
-                        branch_target = int(args.split(",")[-1], 16)
+                    branch_target = int(args.split(",")[-1], 16)
 
         output.append(
             Line(
