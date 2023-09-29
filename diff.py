@@ -2422,6 +2422,11 @@ def process(dump: str, config: Config) -> List[Line]:
     source_line_num = None
     rets_remaining = config.stop_at_ret
 
+    f = open('/tmp/process_out.txt', mode='a')
+    f.write('Processing new input\n')
+    f.write(dump)
+    f.write('\n')
+
     i = 0
     num_instr = 0
     data_refs: Dict[int, Dict[str, List[int]]] = defaultdict(lambda: defaultdict(list))
@@ -2535,8 +2540,12 @@ def process(dump: str, config: Config) -> List[Line]:
         symbol = None
         while i < len(lines):
             reloc_row = lines[i]
+            f.write(f"Relocation: {reloc_row}\n")
             if re.search(arch.re_reloc, reloc_row):
+                f.write(f"Relocation matched regex\n")
                 original, reloc_symbol = processor.process_reloc(reloc_row, original)
+                f.write(f"Original reloc: {original}\n")
+                f.write(f"Symbol reloc: {reloc_symbol}\n")
                 if reloc_symbol is not None:
                     symbol = reloc_symbol
             else:
@@ -2623,6 +2632,7 @@ def process(dump: str, config: Config) -> List[Line]:
             if rets_remaining == 0:
                 break
 
+    f.close()
     processor.post_process(output)
     return output
 
