@@ -1790,6 +1790,7 @@ class AsmProcessorI686(AsmProcessor):
         mnemonic, args = prev.split(maxsplit=1)
 
         if args.startswith("$0x") and int(args.replace("$0x", ""), 16) == 0: args = "0x0"
+        if args == "*0": args = "0x0"
         if args.endswith(",0"): args = args[:-2] + ",0x0"
         addr_imm = re.search(r"(?<!\$)0x[0-9a-f]+", args)
         if not addr_imm:
