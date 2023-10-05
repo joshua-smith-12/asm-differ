@@ -1792,6 +1792,8 @@ class AsmProcessorI686(AsmProcessor):
         if args.startswith("$0x"):
             try:
                 if int(args.replace("$0x", ""), 16) == 0: args = "0x0"
+                if int(args.split(",")[0].replace("$0x", ""), 16) == 0: 
+                    args = "0x0," + ",".join(args.split(",")[1:])
             except:
                 pass
         if args == "*0": args = "0x0"
